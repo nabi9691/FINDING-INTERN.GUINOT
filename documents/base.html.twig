@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{% block title %}Symfony{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/app.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/nabi.css') }}">
+                        {% endblock %}
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <div class="container">
+                
+                <!-- <a href="{{ path('accueil_index') }}"> Accueil </a> -->
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+
+                    {% if app.user %}
+                    <li><a href="{{ path('accueil_index') }}"> accueil </a></li>
+<li><a href="{{ path('Formations_index') }}"> Consultez nos formations !</a></li>
+
+
+                                <li><a href="{{ path('app_logout') }}"> se déconnecter </a></li>
+
+
+
+{% if is_granted('ROLE_ADMIN') %}
+<li><a href="{{ path('utilisateur_index') }}"> Liste des utilisateurs : </a></li>
+
+{% endif %}
+
+
+{% if is_granted('ROLE_STAGIAIRE') %}
+<li><a href="{{ path('pageAccueilEspacePerso_index') }}">Page d'accueil de votre espace personnel<li><a href="{{ path('medias_index') }}"> Liste des médias ! </a></li>
+<li><a href="{{ path('contacts_index') }}"> Liste des contacts ! </a></li>
+
+{% endif %}
+
+
+                    {% else %}
+<li><a href="{{ path('accueil_index') }}"> accueil </a></li>
+    
+<li><a href="{{ path('pageAccueilGuinot_index') }}"> INTRODUCTION SUR GUINOT ! </a></li>
+<li><a href="{{ path('message_index') }}"> accéder au service de tchat public !</a></li>
+<li><a href="{{ path('pageAccueilEspacePerso_index') }}"> accéder à mon espace personnel ! </a> </li>
+
+                        <li><a href="{{ path('app_login') }}"> Se connecter </a> </li>
+                    <li><a href="{{ path('app_register') }}"> Création de compte </a> </li>
+                                            <li><a href="{{ path('formations_index') }}"> Consultez nos formations !</a></li>
+
+                                            
+                                            
+                                            {% endif %}
+
+                    {% if 'register' == app.request.attributes.get('_route') %}
+
+<li><a href="{{ path('accueil_index') }}"> accueil </a></li>
+
+
+
+                    {% endif %}
+                        
+                        {% if 'login' == app.request.attributes.get('_route') %}
+
+<li><a href="{{ path('accueil_index') }}"> accueil </a></li>
+
+
+
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+<!-- -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+<!-- end bootstap nav bar-->
+    {% block content %}
+
+    {% endblock %}
+
+    {% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script type="text/javascript">
+        $('select').formSelect();
+    </script>
+    {% endblock %}
+    
+
+    
+    
+    {% block footer %}
+<!-- Footer -->
+<footer class="text-center text-lg-start bg-light text-muted">
+    <section class="d-flex justify-content-center justify-content-lg-between p-2 "> </section>
+   
+  
+    <!-- Section: Links  -->
+    <section class="">
+      <div class="container text-center text-md-start mt-5">
+        <!-- Grid row -->
+        <div class="row mt-3">
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+            <!-- Content -->
+            <h6 class="text-uppercase fw-bold mb-4">
+              <i class="fas fa-gem me-3"></i>Stagiaire de Guinot
+            </h6>
+            <p>
+              <a href="{{ path('historiqueGuinot_index') }}"> Qui somme nous ?</a></li>
+            </p>
+          </div>
+          <!-- Grid column -->
+  
+          <!-- Grid column -->
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold mb-4">
+              Formations 
+            </h6>
+            <p>
+              <a  class="text-reset">Développeur Web et Web Mobile</a>
+            </p>
+            <p>
+              <a  class="text-reset">Conseiller Relation Client à Distance</a>
+            </p>
+            <p>
+              <a  class="text-reset">Masseur-Kinésithérapeute</a>
+            </p>
+            <p>
+              <a  class="text-reset">Intelligence Artificielle</a>
+            </p>
+          </div>
+          <!-- Grid column -->
+  
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold mb-4">
+              Liens Utiles
+            </h6>
+            <p>
+              <a href="#!" class="text-reset">Pricing</a>
+            </p>
+            <p>
+              <a href="#!" class="text-reset">Settings</a>
+            </p>
+            <p>
+              <a href="#!" class="text-reset">Orders</a>
+            </p>
+            <p>
+              <a href="#!" class="text-reset">Help</a>
+            </p>
+          </div>
+          <!-- Grid column -->
+  
+          <!-- Grid column -->
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold mb-4">
+              Contact
+            </h6>
+            <p><i class="fas fa-home me-3"></i> 24-26 bd Chastenet de Géry, 94814 Villejuif Cedex</p>
+            <p>
+              <i class="fas fa-envelope me-3"></i>
+              paul.guinot@guinot.asso.fr
+            </p>
+            <p><i class="fas fa-phone me-3"></i> + 01 46 78 01 00</p>
+            <p><i class="fas fa-print me-3"></i> + 01 46 78 01 00</p>
+          </div>
+          <!-- Grid column -->
+        </div>
+        <!-- Grid row -->
+      </div>
+    </section>
+    <!-- Section: Links  -->
+  
+    <!-- Copyright -->
+    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+      © 2021 Copyright:
+      <a class="text-reset fw-bold" href="">MohammedNabi.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!-- Footer -->
+{% endblock %}
+</body>
+
+</html>
